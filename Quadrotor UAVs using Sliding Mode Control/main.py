@@ -13,7 +13,7 @@ import pickle
 import os
 
 class Quadrotor():
-	xd, yd, zd, xd_dot, yd_dot, zd_dot, xd_ddot, yd_ddot, zd_ddot = [0,0,0,0,0,0,0,0,0]
+	#xd, yd, zd, xd_dot, yd_dot, zd_dot, xd_ddot, yd_ddot, zd_ddot = [0,0,0,0,0,0,0,0,0]
 
 	def __init__(self):
 		# publisher for rotor speeds
