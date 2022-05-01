@@ -67,7 +67,8 @@ class Quadrotor():
 		self.k3 = 0.5
 		self.k4 = 0.5
 
-		self.time_list = [5,20,35,50,65]
+		# self.time_list = [5,20,35,50,65]
+		self.time_list = [5]
 		self.t_count = 0
 
 		self.s1 = 0
@@ -133,17 +134,17 @@ class Quadrotor():
 		x8 = rpy_dot[2,0] # yaw velocity
 
 		
-		xd, yd, zd, xd_dot, yd_dot, zd_dot, xd_ddot, yd_ddot, zd_ddot = [0,0,0,0,0,0,0,0,0]
+		xd, yd, zd, xd_dot, yd_dot, zd_dot, xd_ddot, yd_ddot, zd_ddot = self.traj_evaluate(self.time_list[0])
 
-		if self.t_count == 0:
-			xd, yd, zd, xd_dot, yd_dot, zd_dot, xd_ddot, yd_ddot, zd_ddot = self.traj_evaluate(self.time_list[0])
-			self.t_count+=1
+		# if self.t_count == 0:
+		# 	xd, yd, zd, xd_dot, yd_dot, zd_dot, xd_ddot, yd_ddot, zd_ddot = self.traj_evaluate(self.time_list[0])
+		# 	self.t_count+=1
 
-		elif self.s1 < 0.00000000015 and self.s2 < 0.00000000015 and self.s3 < 0.00000000015 and self.s4 < 0.00000000015:
-			xd, yd, zd, xd_dot, yd_dot, zd_dot, xd_ddot, yd_ddot, zd_ddot = self.traj_evaluate(self.time_list[self.t_count])
-			self.t_count+=1
-		else:
-			xd, yd, zd, xd_dot, yd_dot, zd_dot, xd_ddot, yd_ddot, zd_ddot = self.traj_evaluate(self.time_list[self.t_count-1])
+		# elif self.s1 < 0.00000000015 and self.s2 < 0.00000000015 and self.s3 < 0.00000000015 and self.s4 < 0.00000000015:
+		# 	xd, yd, zd, xd_dot, yd_dot, zd_dot, xd_ddot, yd_ddot, zd_ddot = self.traj_evaluate(self.time_list[self.t_count])
+		# 	self.t_count+=1
+		# else:
+		# 	xd, yd, zd, xd_dot, yd_dot, zd_dot, xd_ddot, yd_ddot, zd_ddot = self.traj_evaluate(self.time_list[self.t_count-1])
 
 
 		# TODO: implement the Sliding Mode Control laws designed in Part 2 to calculate the control inputs "u"
@@ -155,9 +156,9 @@ class Quadrotor():
 		#u1 = -(((self.m*(self.lambda1*(x5-zd_dot)-zd_ddot) - self.g)/(cos(x2)*cos(x3))) + self.k1)*self.sat(self.s1)
 		u1 = self.m*(self.g + zd_ddot - self.lambda1*(x5 - zd_dot) - self.k1*self.sat(self.s1))/(cos(x2)*cos(x3))
 
-		print("U1: " + str(u1))
-		print("z: " + str(x1))
-		print("zd: " + str(zd))
+		# print("U1: " + str(u1))
+		# print("z: " + str(x1))
+		# print("zd: " + str(zd))
 		# -----------------------------------------------------------------
 
 		# After calculating u1 
@@ -184,12 +185,12 @@ class Quadrotor():
 
 		#u2 = -(x7*x8*(self.Iy-self.Iz) - self.Ip*self.max_ohm()*x7 + self.lambda2*self.Ix*x6 + self.k2)*self.sat(self.s2)
 		u2 = -x7*x8*(self.Iy - self.Iz) - self.lambda2*self.Ix*x6 - self.Ix*(self.rho + self.k2)*self.sat(self.s2) + self.Ip*(self.w1 - self.w2 + self.w3 - self.w4)*x7
-		u2 = 0
+		# u2 = 0
 
 
 		print("U2: " + str(u2))
 		print("phi: " + str(x2))
-		print("Fy: " + str(Fy))
+		# print("Fy: " + str(Fy))
 		print("phi_d: " + str(PHI_d))
 		## third control input -------------------------------------------- 
 		
@@ -197,7 +198,7 @@ class Quadrotor():
 
 		#u3 = -(x6*x8*(self.Iz-self.Ix) + self.Ip*self.max_ohm()*x6 + self.lambda3*self.Iy*x7 + self.k3)*self.sat(self.s3)
 		u3 = -x6*x8*(self.Iz - self.Ix) - self.Ip*(self.w1 - self.w2 + self.w3 - self.w4) - self.lambda3*self.Iy*x7 - self.Iy*(self.rho + self.k3)*self.sat(self.s3)
-		u3 = 0
+		# u3 = 0
 
 		#print("U3: " + str(u3))
 		#print("theta: " + str(x3))
@@ -208,7 +209,7 @@ class Quadrotor():
 
 		#u4 = -(x6*x7*(self.Ix - self.Iy) + self.lambda4 * self.Iz * x8 + self.k4)*self.sat(self.s4)
 		u4 = -x6*x7*(self.Ix - self.Iy) - self.lambda4 * self.Iz * x8 - self.Iz*(self.rho - self.k4)*self.sat(self.s4)
-		u4 = 0
+		# u4 = 0
 
 		#print("U4: " + str(u4))
 		#print("psi: " + str(x4))
@@ -285,8 +286,8 @@ class Quadrotor():
 
 	def wrap_pipi(self, angle):
 
-		if abs(angle) > 2*pi:
-			return (angle%(2*pi))
+		if abs(angle) > pi:
+			return (angle%(pi))
 		else:
 			return angle
 
