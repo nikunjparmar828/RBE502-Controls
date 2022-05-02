@@ -35,7 +35,7 @@ class Quadrotor():
 		self.w2 = 0
 		self.w3 = 0
 		self.w4 = 0
-		self.rho = 2*2618
+		self.rho = 0
 
 		# TODO: include initialization codes if needed
 		self.m = 0.027 # mass in kg
@@ -45,30 +45,30 @@ class Quadrotor():
 		self.Ix = 16.571710 * (10**(-6))
 		self.Iy = 16.571710 * (10**(-6))
 		self.Iz = 29.261652 * (10**(-6))
-		self.Ip = 12.62655 * (10**(-6))
+		self.Ip = 12.65625 * (10**(-8))
 
 		# propeller thrust and moment factors 
 		self.kf = 1.28192 * (10**(-8))
 		self.km = 5.964552 * (10**(-3))
 
 		# TUNE
-		self.Kp = 0.1 # using kp and kd in 'traj_evaluate' function to calculate desired theta and phi values 
-		self.Kd = 0.5
+		self.Kp = 10 # using kp and kd in 'traj_evaluate' function to calculate desired theta and phi values 
+		self.Kd = 5
 
-		self.lambda1 = 1
-		self.lambda2 = 1
-		self.lambda3 = 1
-		self.lambda4 = 1
+		self.lambda1 = 100
+		self.lambda2 = 100
+		self.lambda3 = 100
+		self.lambda4 = 100
 
 		self.g = 9.82 
 
-		self.k1 = 0.5
-		self.k2 = 0.5
-		self.k3 = 0.5
-		self.k4 = 0.5
+		self.k1 = 4
+		self.k2 = 8
+		self.k3 = 8
+		self.k4 = 1
 
 		# self.time_list = [5,20,35,50,65]
-		self.time_list = [5]
+		# self.time_list = [5]
 		self.t_count = 0
 
 		self.s1 = 0
@@ -77,37 +77,38 @@ class Quadrotor():
 		self.s4 = 0
 
 
-	def traj_evaluate(self, t):
+	def traj_evaluate(self):
 		# TODO: evaluating the corresponding trajectories designed in Part 1to return the desired positions, velocities and accelerations
+		# print(self.t)
 
-		# xd = (-1/42525000)* ((self.t)**5) + (7/1215000) * ((self.t)**4) + (-251/567000)*((self.t)**3) + (113/9720)*((self.t)**2) + (-325/6804)*(self.t)
-		# xd_dot = 5*(-1/42525000)* ((self.t)**4) + 4*(7/1215000) * ((self.t)**3) + 3*(-251/567000)*((self.t)**2) + 2*(113/9720)*((self.t)) + (-325/6804)
-		# xd_ddot = 20*(-1/42525000)* ((self.t)**3) + 12*(7/1215000) * ((self.t)**2) + 6*(-251/567000)*(self.t) + 2*(113/9720) 
+		xd = (-1/42525000)* ((self.t)**5) + (7/1215000) * ((self.t)**4) + (-251/567000)*((self.t)**3) + (113/9720)*((self.t)**2) + (-325/6804)*(self.t)
+		xd_dot = 5*(-1/42525000)* ((self.t)**4) + 4*(7/1215000) * ((self.t)**3) + 3*(-251/567000)*((self.t)**2) + 2*(113/9720)*((self.t)) + (-325/6804)
+		xd_ddot = 20*(-1/42525000)* ((self.t)**3) + 12*(7/1215000) * ((self.t)**2) + 6*(-251/567000)*(self.t) + 2*(113/9720) 
 
 
-		# yd = (2/26578125)* ((self.t)**5) + (-7/607500) * ((self.t)**4) + (79/141750)*((self.t)**3) + (-211/24300)*((self.t)**2) + (1313/42525)*(self.t)
-		# yd_dot = 5*(2/26578125)* ((self.t)**4) + 4*(-7/607500) * ((self.t)**3) + 3*(79/141750)*((self.t)**2) + 2*(-211/24300)*(self.t) + (1313/42525)
-		# yd_ddot = 20*(2/26578125)* ((self.t)**3) + 12*(-7/607500) * ((self.t)**2) + 6*(79/141750)*(self.t) + 2*(-211/24300)
+		yd = (2/26578125)* ((self.t)**5) + (-7/607500) * ((self.t)**4) + (79/141750)*((self.t)**3) + (-211/24300)*((self.t)**2) + (1313/42525)*(self.t)
+		yd_dot = 5*(2/26578125)* ((self.t)**4) + 4*(-7/607500) * ((self.t)**3) + 3*(79/141750)*((self.t)**2) + 2*(-211/24300)*(self.t) + (1313/42525)
+		yd_ddot = 20*(2/26578125)* ((self.t)**3) + 12*(-7/607500) * ((self.t)**2) + 6*(79/141750)*(self.t) + 2*(-211/24300)
 
-		# zd = (1/11375000)* ((self.t)**5) + (-1/65000) * ((self.t)**4) + (89/91000)*((self.t)**3) + (-71/2600)*((self.t)**2) + (2857/9100)*(self.t)
-		# zd_dot = 5*(1/11375000)* ((self.t)**4) + 4*(-1/65000) * ((self.t)**3) + 3*(89/91000)*((self.t)**2) + 2*(-71/2600)*(self.t) + (2857/9100)
-		# zd_ddot = 20*(1/11375000)* ((self.t)**3) + 12*(-1/65000) * ((self.t)**2) + 6*(89/91000)*(self.t) + 2*(-71/2600)
+		zd = (1/11375000)* ((self.t)**5) + (-1/65000) * ((self.t)**4) + (89/91000)*((self.t)**3) + (-71/2600)*((self.t)**2) + (2857/9100)*(self.t)
+		zd_dot = 5*(1/11375000)* ((self.t)**4) + 4*(-1/65000) * ((self.t)**3) + 3*(89/91000)*((self.t)**2) + 2*(-71/2600)*(self.t) + (2857/9100)
+		zd_ddot = 20*(1/11375000)* ((self.t)**3) + 12*(-1/65000) * ((self.t)**2) + 6*(89/91000)*(self.t) + 2*(-71/2600)
 
 		# # Fx = self.m *(-self.Kp * (x-xd) - self.Kd * (x_dot - xd_dot) + xd_ddot)
 		# # Fy = self.m *(-self.Kp * (y-yd) - self.Kd * (y_dot - yd_dot) + yd_ddot)
 
-		xd = (-1/42525000)* ((t)**5) + (7/1215000) * ((t)**4) + (-251/567000)*((t)**3) + (113/9720)*((t)**2) + (-325/6804)*(t)
-		xd_dot = 5*(-1/42525000)* ((t)**4) + 4*(7/1215000) * ((t)**3) + 3*(-251/567000)*((t)**2) + 2*(113/9720)*((t)) + (-325/6804)
-		xd_ddot = 20*(-1/42525000)* ((t)**3) + 12*(7/1215000) * ((t)**2) + 6*(-251/567000)*(t) + 2*(113/9720) 
+		# xd = (-1/42525000)* ((t)**5) + (7/1215000) * ((t)**4) + (-251/567000)*((t)**3) + (113/9720)*((t)**2) + (-325/6804)*(t)
+		# xd_dot = 5*(-1/42525000)* ((t)**4) + 4*(7/1215000) * ((t)**3) + 3*(-251/567000)*((t)**2) + 2*(113/9720)*((t)) + (-325/6804)
+		# xd_ddot = 20*(-1/42525000)* ((t)**3) + 12*(7/1215000) * ((t)**2) + 6*(-251/567000)*(t) + 2*(113/9720) 
 
 
-		yd = (2/26578125)* ((t)**5) + (-7/607500) * ((t)**4) + (79/141750)*((t)**3) + (-211/24300)*((t)**2) + (1313/42525)*(t)
-		yd_dot = 5*(2/26578125)* ((t)**4) + 4*(-7/607500) * ((t)**3) + 3*(79/141750)*((t)**2) + 2*(-211/24300)*(t) + (1313/42525)
-		yd_ddot = 20*(2/26578125)* ((t)**3) + 12*(-7/607500) * ((t)**2) + 6*(79/141750)*(t) + 2*(-211/24300)
+		# yd = (2/26578125)* ((t)**5) + (-7/607500) * ((t)**4) + (79/141750)*((t)**3) + (-211/24300)*((t)**2) + (1313/42525)*(t)
+		# yd_dot = 5*(2/26578125)* ((t)**4) + 4*(-7/607500) * ((t)**3) + 3*(79/141750)*((t)**2) + 2*(-211/24300)*(t) + (1313/42525)
+		# yd_ddot = 20*(2/26578125)* ((t)**3) + 12*(-7/607500) * ((t)**2) + 6*(79/141750)*(t) + 2*(-211/24300)
 
-		zd = (1/11375000)* ((t)**5) + (-1/65000) * ((t)**4) + (89/91000)*((t)**3) + (-71/2600)*((t)**2) + (2857/9100)*(t)
-		zd_dot = 5*(1/11375000)* ((t)**4) + 4*(-1/65000) * ((t)**3) + 3*(89/91000)*((t)**2) + 2*(-71/2600)*(t) + (2857/9100)
-		zd_ddot = 20*(1/11375000)* ((t)**3) + 12*(-1/65000) * ((t)**2) + 6*(89/91000)*(t) + 2*(-71/2600)
+		# zd = (1/11375000)* ((t)**5) + (-1/65000) * ((t)**4) + (89/91000)*((t)**3) + (-71/2600)*((t)**2) + (2857/9100)*(t)
+		# zd_dot = 5*(1/11375000)* ((t)**4) + 4*(-1/65000) * ((t)**3) + 3*(89/91000)*((t)**2) + 2*(-71/2600)*(t) + (2857/9100)
+		# zd_ddot = 20*(1/11375000)* ((t)**3) + 12*(-1/65000) * ((t)**2) + 6*(89/91000)*(t) + 2*(-71/2600)
  
 
 
@@ -134,13 +135,13 @@ class Quadrotor():
 		x8 = rpy_dot[2,0] # yaw velocity
 
 		
-		xd, yd, zd, xd_dot, yd_dot, zd_dot, xd_ddot, yd_ddot, zd_ddot = self.traj_evaluate(self.time_list[0])
+		xd, yd, zd, xd_dot, yd_dot, zd_dot, xd_ddot, yd_ddot, zd_ddot = self.traj_evaluate()
 
 		# if self.t_count == 0:
 		# 	xd, yd, zd, xd_dot, yd_dot, zd_dot, xd_ddot, yd_ddot, zd_ddot = self.traj_evaluate(self.time_list[0])
 		# 	self.t_count+=1
 
-		# elif self.s1 < 0.00000000015 and self.s2 < 0.00000000015 and self.s3 < 0.00000000015 and self.s4 < 0.00000000015:
+		# elif self.s1 < 0.00000015 and self.s2 < 0.00000015 and self.s3 < 0.00000015 and self.s4 < 0.00000015:
 		# 	xd, yd, zd, xd_dot, yd_dot, zd_dot, xd_ddot, yd_ddot, zd_ddot = self.traj_evaluate(self.time_list[self.t_count])
 		# 	self.t_count+=1
 		# else:
@@ -154,11 +155,15 @@ class Quadrotor():
 		self.s1 = (x5-zd_dot) + self.lambda1*(x1-zd)
 
 		#u1 = -(((self.m*(self.lambda1*(x5-zd_dot)-zd_ddot) - self.g)/(cos(x2)*cos(x3))) + self.k1)*self.sat(self.s1)
+		# u1 = self.m/(cos(x1)*cos(x2))*(self.g + zd_ddot - self.lambda1*(x5 - zd_dot) - self.k1*self.sat(self.s1))
 		u1 = self.m*(self.g + zd_ddot - self.lambda1*(x5 - zd_dot) - self.k1*self.sat(self.s1))/(cos(x2)*cos(x3))
 
 		# print("U1: " + str(u1))
 		# print("z: " + str(x1))
 		# print("zd: " + str(zd))
+		# print("xd: " + str(xd))
+		# print("yd: " + str(yd))
+		
 		# -----------------------------------------------------------------
 
 		# After calculating u1 
@@ -167,10 +172,18 @@ class Quadrotor():
 		Fx = self.m *(-self.Kp * (xyz[0,0]-xd) - self.Kd * (xyz_dot[0,0] - xd_dot) + xd_ddot)
 		Fy = self.m *(-self.Kp * (xyz[1,0]-yd) - self.Kd * (xyz_dot[1,0] - yd_dot) + yd_ddot)
 
-		theta_d = asin(Fx/u1) # theta desired 
-		PHI_d = asin(-Fy/u1) # phi desires --> not using the variable name 'phi' because I chose it as a tuning parameter name
+		print("Fx",Fx)
+		print("Fy",Fy)
+
+		if u1 == 0:
+			print("------------------------------------------------------------------------------------------")
+
+		theta_d = self.wrap_pipi(asin(Fx/u1)) # theta desired 
+		PHI_d = self.wrap_pipi(asin(-Fy/u1)) # phi desires --> not using the variable name 'phi' because I chose it as a tuning parameter name
 		psi_d = 0
 
+		print("theta_d", theta_d)
+		print("PHI_d", PHI_d)
 		# theta_d_dot = 0
 		# PHI_d_dot = 0
 		# psi_d_dot = 0
@@ -183,22 +196,27 @@ class Quadrotor():
 
 		self.s2 = self.wrap_pipi(rpy_dot[0,0]) + self.lambda2*self.wrap_pipi(rpy[0,0]-PHI_d)
 
-		#u2 = -(x7*x8*(self.Iy-self.Iz) - self.Ip*self.max_ohm()*x7 + self.lambda2*self.Ix*x6 + self.k2)*self.sat(self.s2)
-		u2 = -x7*x8*(self.Iy - self.Iz) - self.lambda2*self.Ix*x6 - self.Ix*(self.rho + self.k2)*self.sat(self.s2) + self.Ip*(self.w1 - self.w2 + self.w3 - self.w4)*x7
+		u2 = -(x7*x8*(self.Iy-self.Iz) - self.Ip*self.max_ohm()*x7 + self.lambda2*self.Ix*x6 + self.k2*self.Ix*self.sat(self.s2))
+		# u2 = -x7*x8*(self.Iy - self.Iz) - self.lambda2*self.Ix*x6 - self.Ix*(self.rho + self.k2)*self.sat(self.s2) + self.Ip*(self.w1 - self.w2 + self.w3 - self.w4)*x7
 		# u2 = 0
 
 
-		print("U2: " + str(u2))
-		print("phi: " + str(x2))
-		# print("Fy: " + str(Fy))
-		print("phi_d: " + str(PHI_d))
+		# u2 = -x7*x8*(self.Iy - self.Iz) + self.Ip*self.max_ohm()*x7 - self.lambda2*(x6) - self.k2*self.sat(self.s2)
+
+
+		# print("U2: " + str(u2))
+		# print("phi: " + str(x2))
+		# # print("Fy: " + str(Fy))
+		# print("phi_d: " + str(PHI_d))
 		## third control input -------------------------------------------- 
 		
 		self.s3 = self.wrap_pipi(rpy_dot[1,0]) + self.lambda3*self.wrap_pipi(rpy[1,0]-theta_d)
 
-		#u3 = -(x6*x8*(self.Iz-self.Ix) + self.Ip*self.max_ohm()*x6 + self.lambda3*self.Iy*x7 + self.k3)*self.sat(self.s3)
-		u3 = -x6*x8*(self.Iz - self.Ix) - self.Ip*(self.w1 - self.w2 + self.w3 - self.w4) - self.lambda3*self.Iy*x7 - self.Iy*(self.rho + self.k3)*self.sat(self.s3)
+		u3 = -(x6*x8*(self.Iz-self.Ix) + self.Ip*self.max_ohm()*x6 + self.lambda3*self.Iy*x7 + self.k3*self.Iy*self.sat(self.s3))
+		# u3 = -x6*x8*(self.Iz - self.Ix) - self.Ip*(self.w1 - self.w2 + self.w3 - self.w4) - self.lambda3*self.Iy*x7 - self.Iy*(self.rho + self.k3)*self.sat(self.s3)
 		# u3 = 0
+
+		# u3 = -x6*x8*(self.Iz - self.Ix) - self.Ip*self.max_ohm()*x6 - self.lambda3*(x7) - self.k3*self.sat(self.s3)
 
 		#print("U3: " + str(u3))
 		#print("theta: " + str(x3))
@@ -207,10 +225,11 @@ class Quadrotor():
 
 		self.s4 = self.wrap_pipi(rpy_dot[2,0]) + self.lambda4*self.wrap_pipi(rpy[2,0]-psi_d)
 
-		#u4 = -(x6*x7*(self.Ix - self.Iy) + self.lambda4 * self.Iz * x8 + self.k4)*self.sat(self.s4)
-		u4 = -x6*x7*(self.Ix - self.Iy) - self.lambda4 * self.Iz * x8 - self.Iz*(self.rho - self.k4)*self.sat(self.s4)
+		u4 = -(x6*x7*(self.Ix - self.Iy) + self.lambda4 * self.Iz * x8 + self.k4*self.Iz*self.sat(self.s4))
+		# u4 = -x6*x7*(self.Ix - self.Iy) - self.lambda4 * self.Iz * x8 - self.Iz*(self.rho - self.k4)*self.sat(self.s4)
 		# u4 = 0
 
+		# u4 = -x6*x7*(self.Ix - self.Iy) - self.lambda4 * x8 - self.k4*self.sat(self.s4) 
 		#print("U4: " + str(u4))
 		#print("psi: " + str(x4))
 
@@ -224,53 +243,54 @@ class Quadrotor():
 		bb =  (1.4142/(4*self.kf*self.l))
 		cc = (1/4*self.km*self.kf)
 
-		if (aa*u1 - bb*u2 - bb*u3 - cc*u4 )< 0:
-			self.w1 = 0
-		else :
-		 	self.w1 = sqrt(aa*u1 - bb*u2 - bb*u3 - cc*u4)
+		# if (aa*u1 - bb*u2 - bb*u3 - cc*u4 )< 0:
+		# 	self.w1 = 0
+		# else :
+		# self.w1 = sqrt(aaa*u1 - bb*u2 - bb*u3 - cc*u4)
 
-		#self.w1 = sqrt(abs(aa*u1 - bb*u2 - bb*u3 - cc*u4))
+		self.w1 = sqrt(abs(aa*u1 - bb*u2 - bb*u3 - cc*u4))
 
 		if self.w1>2618:
-			print('overshoot --> w1')
+			# print('overshoot --> w1')
 			self.w1 = 2618
 
 
-		if (aa*u1 - bb*u2 + bb*u3 + cc*u4 )< 0:
-		 	self.w2 = 0
-		else :
-		 	self.w2 = sqrt(aa*u1 - bb*u2 + bb*u3 + cc*u4 )
+		# if (aa*u1 - bb*u2 + bb*u3 + cc*u4 )< 0:
+		#  	self.w2 = 0
+		# else :
+		 # self.w2 = sqrt(aa*u1 - bb*u2 + bb*u3 + cc*u4 )
 		
 		
-		#self.w2 = sqrt(abs(aa*u1 - bb*u2 + bb*u3 + cc*u4))
+		self.w2 = sqrt(abs(aa*u1 - bb*u2 + bb*u3 + cc*u4))
+
 		if self.w2>2618:
-			print('overshoot --> w2')
+			# print('overshoot --> w2')
 			self.w2 = 2618
 
-		if (aa*u1 + bb*u2 + bb*u3 - cc*u4 )< 0:
-		 	self.w3 = 0
-		else :
-		 	self.w3 = sqrt(aa*u1 + bb*u2 + bb*u3 - cc*u4 )
+		# if (aa*u1 + bb*u2 + bb*u3 - cc*u4 )< 0:
+		#  	self.w3 = 0
+		# else :
+		# self.w3 = sqrt(aa*u1 + bb*u2 + bb*u3 - cc*u4 )
 		
 
-		#self.w3 = sqrt( abs(aa*u1 + bb*u2 + bb*u3 - cc*u4) )
+		self.w3 = sqrt( abs(aa*u1 + bb*u2 + bb*u3 - cc*u4) )
 
 		if self.w3>2618:
-			print('overshoot --> w3')
+			# print('overshoot --> w3')
 			self.w3 = 2618
 
 
-		if (aa*u1 + bb*u2 - bb*u3 + cc*u4 )< 0:
-		 	self.w4 = 0
-		else :
-		 	self.w4 = sqrt(aa*u1 + bb*u2 - bb*u3 + cc*u4 )
+		# if (aa*u1 + bb*u2 - bb*u3 + cc*u4 )< 0:
+		#  	self.w4 = 0
+		# else :
+		# self.w4 = sqrt(aa*u1 + bb*u2 - bb*u3 + cc*u4 )
 
 
 
-		#self.w4 = sqrt( abs(aa*u1 + bb*u2 - bb*u3 + cc*u4) )
+		self.w4 = sqrt( abs(aa*u1 + bb*u2 - bb*u3 + cc*u4) )
 
 		if self.w4>2618:
-			print('overshoot --> w4')
+			# print('overshoot --> w4')
 			self.w4 = 2618
 
 		# TODO: maintain the rotor velocities within the valid range of [0 to 2618]
