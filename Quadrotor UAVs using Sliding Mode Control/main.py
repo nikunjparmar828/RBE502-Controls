@@ -53,7 +53,7 @@ class Quadrotor():
 
 		# TUNE
 		self.Kp = 10 # using kp and kd in 'traj_evaluate' function to calculate desired theta and phi values 
-		self.Kd = 5
+		self.Kd = 2
 
 		self.lambda1 = 100
 		self.lambda2 = 100
@@ -62,13 +62,13 @@ class Quadrotor():
 
 		self.g = 9.82 
 
-		self.k1 = 4
-		self.k2 = 8
-		self.k3 = 8
+		self.k1 = 0.5
+		self.k2 = 1
+		self.k3 = 1
 		self.k4 = 1
 
 		# self.time_list = [5,20,35,50,65]
-		# self.time_list = [5]
+		self.time_list = [5]
 		self.t_count = 0
 
 		self.s1 = 0
@@ -137,6 +137,7 @@ class Quadrotor():
 		
 		xd, yd, zd, xd_dot, yd_dot, zd_dot, xd_ddot, yd_ddot, zd_ddot = self.traj_evaluate()
 
+		# xd, yd, zd, xd_dot, yd_dot, zd_dot, xd_ddot, yd_ddot, zd_ddot = self.traj_evaluate(self.time_list[0])
 		# if self.t_count == 0:
 		# 	xd, yd, zd, xd_dot, yd_dot, zd_dot, xd_ddot, yd_ddot, zd_ddot = self.traj_evaluate(self.time_list[0])
 		# 	self.t_count+=1
@@ -159,8 +160,8 @@ class Quadrotor():
 		u1 = self.m*(self.g + zd_ddot - self.lambda1*(x5 - zd_dot) - self.k1*self.sat(self.s1))/(cos(x2)*cos(x3))
 
 		# print("U1: " + str(u1))
-		# print("z: " + str(x1))
-		# print("zd: " + str(zd))
+		print("z: " + str(x1))
+		print("zd: " + str(zd))
 		# print("xd: " + str(xd))
 		# print("yd: " + str(yd))
 		
@@ -172,18 +173,21 @@ class Quadrotor():
 		Fx = self.m *(-self.Kp * (xyz[0,0]-xd) - self.Kd * (xyz_dot[0,0] - xd_dot) + xd_ddot)
 		Fy = self.m *(-self.Kp * (xyz[1,0]-yd) - self.Kd * (xyz_dot[1,0] - yd_dot) + yd_ddot)
 
-		print("Fx",Fx)
-		print("Fy",Fy)
+		# print("Fx",Fx)
+		# print("Fy",Fy)
 
 		if u1 == 0:
 			print("------------------------------------------------------------------------------------------")
 
-		theta_d = self.wrap_pipi(asin(Fx/u1)) # theta desired 
-		PHI_d = self.wrap_pipi(asin(-Fy/u1)) # phi desires --> not using the variable name 'phi' because I chose it as a tuning parameter name
-		psi_d = 0
+		# theta_d = self.wrap_pipi(asin(Fx/u1)) # theta desired 
+		# PHI_d = self.wrap_pipi(asin(-Fy/u1)) # phi desires --> not using the variable name 'phi' because I chose it as a tuning parameter name
+		# psi_d = 0
 
-		print("theta_d", theta_d)
-		print("PHI_d", PHI_d)
+		theta_d = 0 # theta desired 
+		PHI_d = 0 # phi desires --> not using the variable name 'phi' because I chose it as a tuning parameter name
+		psi_d = 0
+		# print("theta_d", theta_d)
+		# print("PHI_d", PHI_d)
 		# theta_d_dot = 0
 		# PHI_d_dot = 0
 		# psi_d_dot = 0
@@ -328,7 +332,7 @@ class Quadrotor():
 
 	def sat(self,s):
 		# TUNE
-		phi = 0.1
+		phi = 0.2
 
 		return min(max(s/phi,-1),1)
 
