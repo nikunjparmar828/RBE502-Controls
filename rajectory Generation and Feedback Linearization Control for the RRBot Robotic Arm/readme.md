@@ -1,4 +1,4 @@
-# rajectory Generation and Feedback Linearization Control for the RRBot Robotic Arm
+# Trajectory Generation and Feedback Linearization Control for the RRBot Robotic Arm
 ## Problem Statement 
 [RBE502_ProgAssignment3.pdf](https://github.com/nikunjparmar828/RBE502-Controls/files/8997064/RBE502_ProgAssignment3.pdf)
 # Calculation 
